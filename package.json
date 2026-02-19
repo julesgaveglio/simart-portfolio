@@ -7,19 +7,28 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "sanity:init": "npx sanity init --project-plan free",
+    "sanity:start": "cd sanity && npx sanity dev"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "module",
   "dependencies": {
+    "@portabletext/react": "^6.0.2",
+    "@sanity/image-url": "^2.0.3",
+    "@sanity/vision": "^5.10.0",
     "framer-motion": "^12.34.2",
     "next": "^16.1.6",
+    "next-intl": "^4.8.3",
+    "next-sanity": "^12.1.0",
     "react": "^19.2.4",
-    "react-dom": "^19.2.4"
+    "react-dom": "^19.2.4",
+    "sanity": "^5.10.0"
   },
   "devDependencies": {
+    "@sanity/cli": "^5.10.0",
     "@types/node": "^25.3.0",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
