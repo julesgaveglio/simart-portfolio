@@ -26,13 +26,20 @@ jobs:
           node-version: "18"
           cache: npm
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --legacy-peer-deps
+      - name: Create .env file
+        run: |
+          echo "NEXT_PUBLIC_SANITY_PROJECT_ID=yjqruava" >> .env
+          echo "NEXT_PUBLIC_SANITY_DATASET=production" >> .env
+          echo "NEXT_PUBLIC_SANITY_API_VERSION=2023-05-03" >> .env
       - name: Build
         run: npm run build
         env:
           NEXT_PUBLIC_SANITY_PROJECT_ID: yjqruava
           NEXT_PUBLIC_SANITY_DATASET: production
           NEXT_PUBLIC_SANITY_API_VERSION: 2023-05-03
+      - name: Copy 404 page
+        run: cp out/404.html out/404/index.html || echo "No 404 page found"
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:
