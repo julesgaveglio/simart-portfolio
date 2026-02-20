@@ -38,8 +38,19 @@ jobs:
           NEXT_PUBLIC_SANITY_PROJECT_ID: yjqruava
           NEXT_PUBLIC_SANITY_DATASET: production
           NEXT_PUBLIC_SANITY_API_VERSION: 2023-05-03
-      - name: Copy 404 page
-        run: cp out/404.html out/404/index.html || echo "No 404 page found"
+      - name: Setup error handling
+        run: |
+          # Copy fallback page to root
+          cp public/fallback.html out/fallback.html
+          # Create 404.html if it doesn't exist
+          if [ ! -f out/404.html ]; then
+            cp public/fallback.html out/404.html
+          fi
+          # Create error page directory
+          mkdir -p out/404
+          cp out/404.html out/404/index.html || echo "No 404 page found"
+          # Create 500 error page
+          cp public/fallback.html out/500.html
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:

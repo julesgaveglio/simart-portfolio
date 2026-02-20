@@ -21,9 +21,23 @@ const nextConfig = {
   },
   // Configuration pour GitHub Pages
   output: 'export', // Génère des fichiers HTML statiques pour chaque route
-  // Ajustez le basePath si vous déployez dans un sous-dossier
-  // basePath: '/simart-portfolio',
-  // trailingSlash: true, // Ajoute un slash à la fin des URLs pour la compatibilité avec GitHub Pages
+  basePath: '/simart-portfolio',
+  trailingSlash: true, // Ajoute un slash à la fin des URLs pour la compatibilité avec GitHub Pages
+  // Désactiver la génération de routes API pour l'export statique
+  distDir: 'out',
+  // Désactiver les fonctionnalités serveur pour l'export statique
+  experimental: {
+    appDir: true,
+    serverActions: false
+  },
+  // Configurer les redirections pour GitHub Pages
+  async redirects() {
+    return [];
+  },
+  // Configurer les en-têtes pour GitHub Pages
+  async headers() {
+    return [];
+  }
 }
 
 export default nextConfig
