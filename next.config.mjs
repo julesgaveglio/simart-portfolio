@@ -16,22 +16,23 @@ const nextConfig = {
         pathname: '/images/**',
       },
     ],
-    unoptimized: true, // Nécessaire pour l'export statique
   },
-  // Configuration pour GitHub Pages
-  output: 'export', // Génère des fichiers HTML statiques pour chaque route
-  basePath: '/simart-portfolio',
-  trailingSlash: true, // Ajoute un slash à la fin des URLs pour la compatibilité avec GitHub Pages
-  // Désactiver les routes dynamiques qui causent des problèmes
-  exportPathMap: async function() {
+  // Configuration pour le développement local
+  async rewrites() {
     return {
-      '/': { page: '/' },
-      '/about/': { page: '/about' },
-      '/contact/': { page: '/contact' },
-      '/works/': { page: '/works' },
-      '/404/': { page: '/404' },
+      beforeFiles: [
+        // Ces règles aident à gérer les routes dynamiques
+        {
+          source: '/works/:series',
+          destination: '/works/[series]',
+        },
+        {
+          source: '/works/:series/:id',
+          destination: '/works/[series]/[id]',
+        },
+      ],
     };
-  }
+  },
 }
 
 export default nextConfig
