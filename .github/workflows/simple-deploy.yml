@@ -38,7 +38,7 @@ jobs:
           NEXT_PUBLIC_SANITY_PROJECT_ID: yjqruava
           NEXT_PUBLIC_SANITY_DATASET: production
           NEXT_PUBLIC_SANITY_API_VERSION: 2023-05-03
-      - name: Setup error handling
+      - name: Setup error handling and static pages
         run: |
           # Copy fallback page to root
           cp public/fallback.html out/fallback.html
@@ -51,6 +51,17 @@ jobs:
           cp out/404.html out/404/index.html || echo "No 404 page found"
           # Create 500 error page
           cp public/fallback.html out/500.html
+          # Fix works pages
+          mkdir -p out/works
+          cp public/works.html out/works/index.html
+          # Create directories for dynamic routes
+          find public -name "*.html" -not -name "fallback.html" -not -name "works.html" | while read file; do
+            filename=$(basename "$file" .html)
+            if [ "$filename" != "index" ]; then
+              mkdir -p "out/$filename"
+              cp "$file" "out/$filename/index.html"
+            fi
+          done
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
         with:

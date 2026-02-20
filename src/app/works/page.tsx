@@ -1,9 +1,11 @@
-import { getAllSeries } from '@/lib/sanityActions';
-import SeriesListClient from './series-list-client';
+import { getAllSeries, getAllWorks } from '@/lib/sanityActions';
+import WorksClientRouter from './works-client-router';
 
 export default async function Works() {
-  // Récupérer toutes les séries depuis Sanity
+  // Récupérer toutes les séries et toutes les œuvres pour le routage côté client
   const seriesData = await getAllSeries();
-
-  return <SeriesListClient seriesData={seriesData} />;
+  const worksData = await getAllWorks();
+  
+  // Utiliser le routeur client pour gérer les routes dynamiques
+  return <WorksClientRouter allSeries={seriesData} allWorks={worksData} />;
 }
