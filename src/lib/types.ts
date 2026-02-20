@@ -46,8 +46,55 @@ export interface Work {
 export interface About {
   name: string;
   profileImage?: SanityImage;
+  monumentalWorkImage?: SanityImage;
   biographyEN: any[]; // Pour les champs Portable Text de Sanity
   biographyNL: any[];
+  birthPlace?: string;
+  availability?: string;
+  acquisitionNote?: string;
   email?: string;
   instagram?: string;
+}
+
+export interface Contact {
+  _id: string;
+  title: string;
+  pageDescriptionEN?: string;
+  pageDescriptionNL?: string;
+  
+  // Coordonnées
+  contactInfoTitle?: string;
+  email: string;
+  phone?: string;
+  studioAddress?: string;
+  openingHours?: string;
+  
+  // Réseaux sociaux
+  socialMediaTitle?: string;
+  instagram?: string;
+  instagramLabel?: string;
+  
+  // Formulaire
+  formTitle?: string;
+  nameFieldLabel?: string;
+  emailFieldLabel?: string;
+  messageFieldLabel?: string;
+  submitButtonTextEN?: string;
+  submitButtonTextNL?: string;
+  submittingButtonTextEN?: string;
+  submittingButtonTextNL?: string;
+  thankYouMessageEN?: string;
+  thankYouMessageNL?: string;
+  errorMessageEN?: string;
+  errorMessageNL?: string;
+  
+  // Texte d'acquisition
+  acquisitionText?: string;
+  
+  // Configuration pour les tests
+  testingEmail?: string;
+  useTestingEmail?: boolean;
+  emailjsServiceId?: string;
+  emailjsTemplateId?: string;
+  emailjsPublicKey?: string;
 }

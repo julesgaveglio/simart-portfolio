@@ -1,6 +1,6 @@
 import { sanityFetch } from './sanityFetch';
-import { allSeriesQuery, seriesBySlugQuery, workBySlugQuery, aboutQuery } from './queries';
-import { Series, Work, About } from './types';
+import { allSeriesQuery, seriesBySlugQuery, workBySlugQuery, aboutQuery, allWorksQuery, contactQuery } from './queries';
+import { Series, Work, About, Contact } from './types';
 import { urlFor } from './sanity';
 
 // Récupérer toutes les séries
@@ -23,7 +23,7 @@ export async function getSeriesBySlug(slug: string): Promise<Series | null> {
     const series = await sanityFetch<Series>({
       query: seriesBySlugQuery,
       params: { slug },
-      tags: [`series:${slug}`]
+      tags: [`series:${slug}`, 'series']
     });
     
     return series;
@@ -39,7 +39,7 @@ export async function getWorkBySlug(slug: string): Promise<Work | null> {
     const work = await sanityFetch<Work>({
       query: workBySlugQuery,
       params: { slug },
-      tags: [`work:${slug}`]
+      tags: [`work:${slug}`, 'work']
     });
     
     return work;
@@ -60,6 +60,36 @@ export async function getAboutInfo(): Promise<About | null> {
     return about;
   } catch (error) {
     console.error('Error fetching about info:', error);
+    return null;
+  }
+}
+
+// Récupérer tous les travaux
+export async function getAllWorks(): Promise<Work[]> {
+  try {
+    const works = await sanityFetch<Work[]>({
+      query: allWorksQuery,
+      tags: ['work']
+    });
+    
+    return works;
+  } catch (error) {
+    console.error('Error fetching all works:', error);
+    return [];
+  }
+}
+
+// Récupérer les informations de la page Contact
+export async function getContactInfo(): Promise<Contact | null> {
+  try {
+    const contact = await sanityFetch<Contact>({
+      query: contactQuery,
+      tags: ['contact']
+    });
+    
+    return contact;
+  } catch (error) {
+    console.error('Error fetching contact info:', error);
     return null;
   }
 }

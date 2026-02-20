@@ -1,9 +1,9 @@
 import { getAllSeries } from '@/lib/sanityActions';
-import WorksClient from './works-client';
+import SeriesListClient from './series-list-client';
 
 export default async function Works() {
-  // Récupérer les séries depuis Sanity
+  // Récupérer toutes les séries depuis Sanity
   const seriesData = await getAllSeries();
 
-  return <WorksClient seriesData={seriesData} />;
+  return <SeriesListClient seriesData={seriesData} />;
 }

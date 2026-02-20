@@ -33,7 +33,7 @@ export const seriesBySlugQuery = `
       status,
       descriptionEN,
       descriptionNL
-    }
+    }[0...100]
   }
 `;
 
@@ -63,9 +63,80 @@ export const aboutQuery = `
   *[_type == "about"][0] {
     name,
     profileImage,
+    monumentalWorkImage,
     biographyEN,
     biographyNL,
+    birthPlace,
+    availability,
+    acquisitionNote,
     email,
     instagram
+  }
+`;
+
+// Récupérer tous les travaux
+export const allWorksQuery = `
+  *[_type == "work"] | order(year desc) {
+    _id,
+    title,
+    "slug": slug.current,
+    image,
+    "series": series->{
+      _id,
+      title,
+      "slug": slug.current
+    },
+    dimensions,
+    medium,
+    year,
+    status,
+    descriptionEN,
+    descriptionNL
+  }[0...100]
+`;
+
+// Récupérer les informations de contact
+export const contactQuery = `
+  *[_type == "contact"][0] {
+    _id,
+    title,
+    pageDescriptionEN,
+    pageDescriptionNL,
+    
+    // Coordonnées
+    contactInfoTitle,
+    email,
+    phone,
+    studioAddress,
+    openingHours,
+    
+    // Réseaux sociaux
+    socialMediaTitle,
+    instagram,
+    instagramLabel,
+    
+    // Formulaire
+    formTitle,
+    nameFieldLabel,
+    emailFieldLabel,
+    messageFieldLabel,
+    submitButtonTextEN,
+    submitButtonTextNL,
+    submittingButtonTextEN,
+    submittingButtonTextNL,
+    thankYouMessageEN,
+    thankYouMessageNL,
+    errorMessageEN,
+    errorMessageNL,
+    
+    // Texte d'acquisition
+    acquisitionText,
+    
+    // Configuration pour les tests
+    testingEmail,
+    useTestingEmail,
+    emailjsServiceId,
+    emailjsTemplateId,
+    emailjsPublicKey
   }
 `;
