@@ -12,10 +12,41 @@ export const liveClient = createClient({
 
 // Fonction simulée pour s'abonner aux changements d'un document
 export function subscribeToDocument(id: string, callback: (update: any) => void) {
-  // Récupérer le document une seule fois au lieu de s'abonner
-  liveClient.fetch(`*[_id == $id][0]`, { id }).then(result => {
-    if (result) {
-      callback(result);
+  // Détecter si c'est une série pour inclure les œuvres associées
+  liveClient.fetch(`*[_id == $id][0]._type`, { id }).then(docType => {
+    if (docType === 'series') {
+      // Pour les séries, utiliser la requête complète qui inclut les œuvres
+      liveClient.fetch(`*[_id == $id][0] {
+        _id,
+        title,
+        slug,
+        coverImage,
+        descriptionEN,
+        descriptionNL,
+        "works": *[_type == "work" && references(^._id)] | order(year desc) {
+          _id,
+          title,
+          slug,
+          image,
+          dimensions,
+          medium,
+          year,
+          status,
+          descriptionEN,
+          descriptionNL
+        }[0...100]
+      }`, { id }).then(result => {
+        if (result) {
+          callback(result);
+        }
+      });
+    } else {
+      // Pour les autres types de documents, utiliser la requête simple
+      liveClient.fetch(`*[_id == $id][0]`, { id }).then(result => {
+        if (result) {
+          callback(result);
+        }
+      });
     }
   });
   
@@ -29,12 +60,42 @@ export function subscribeToDocument(id: string, callback: (update: any) => void)
 
 // Fonction simulée pour s'abonner aux changements d'un type de document
 export function subscribeToType(type: string, callback: (updates: any[]) => void) {
-  // Récupérer les documents une seule fois au lieu de s'abonner
-  liveClient.fetch(`*[_type == $type]`, { type }).then(result => {
-    if (result && Array.isArray(result)) {
-      callback(result);
-    }
-  });
+  // Utiliser des requêtes spécifiques selon le type de document
+  if (type === 'series') {
+    // Pour les séries, inclure les œuvres associées
+    liveClient.fetch(`*[_type == "series"] | order(order asc) {
+      _id,
+      title,
+      slug,
+      coverImage,
+      descriptionEN,
+      descriptionNL,
+      order,
+      "works": *[_type == "work" && references(^._id)] | order(year desc) {
+        _id,
+        title,
+        slug,
+        image,
+        dimensions,
+        medium,
+        year,
+        status,
+        descriptionEN,
+        descriptionNL
+      }[0...100]
+    }`).then(result => {
+      if (result && Array.isArray(result)) {
+        callback(result);
+      }
+    });
+  } else {
+    // Pour les autres types de documents, utiliser la requête simple
+    liveClient.fetch(`*[_type == $type]`, { type }).then(result => {
+      if (result && Array.isArray(result)) {
+        callback(result);
+      }
+    });
+  }
   
   // Retourner un objet avec une méthode unsubscribe simulée
   return {
