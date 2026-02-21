@@ -5,14 +5,11 @@
   "main": "index.js",
   "scripts": {
     "dev": "next dev",
-    "dev:local": "next dev -H 0.0.0.0 -p 3000",
     "build": "next build",
     "start": "next start",
-    "start:local": "next start -H 0.0.0.0 -p 3000",
     "lint": "next lint",
     "sanity:init": "npx sanity init --project-plan free",
     "sanity:start": "cd sanity-studio && npx sanity dev",
-    "sanity:start:local": "cd sanity-studio && npx sanity dev --host 0.0.0.0 --port 3333",
     "sanity:setup": "node scripts/sanity-auto-setup.js",
     "sanity:setup:install": "npm install dotenv && npm run sanity:setup",
     "sanity:about:setup": "node scripts/sanity-direct-setup.js",
@@ -20,8 +17,7 @@
     "sanity:contact:setup:complete": "node scripts/init-contact-data-complete.js",
     "sanity:about:init": "node scripts/init-about-data.js",
     "sanity:works:init": "node scripts/init-works-data.js",
-    "sanity:fix-series": "node scripts/fix-series-references.js",
-    "local": "concurrently \"npm run dev:local\" \"npm run sanity:start:local\""
+    "sanity:fix-series": "node scripts/fix-series-references.js"
   },
   "keywords": [],
   "author": "",
