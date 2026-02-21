@@ -19,21 +19,26 @@ export function subscribeToDocument(id: string, callback: (update: any) => void)
       liveClient.fetch(`*[_id == $id][0] {
         _id,
         title,
-        slug,
+        "slug": slug.current,
         coverImage,
         descriptionEN,
         descriptionNL,
         "works": *[_type == "work" && references(^._id)] | order(year desc) {
           _id,
           title,
-          slug,
+          "slug": slug.current,
           image,
           dimensions,
           medium,
           year,
           status,
           descriptionEN,
-          descriptionNL
+          descriptionNL,
+          "series": series->{
+            _id,
+            title,
+            "slug": slug.current
+          }
         }[0...100]
       }`, { id }).then(result => {
         if (result) {
@@ -66,7 +71,7 @@ export function subscribeToType(type: string, callback: (updates: any[]) => void
     liveClient.fetch(`*[_type == "series"] | order(order asc) {
       _id,
       title,
-      slug,
+      "slug": slug.current,
       coverImage,
       descriptionEN,
       descriptionNL,
@@ -74,14 +79,19 @@ export function subscribeToType(type: string, callback: (updates: any[]) => void
       "works": *[_type == "work" && references(^._id)] | order(year desc) {
         _id,
         title,
-        slug,
+        "slug": slug.current,
         image,
         dimensions,
         medium,
         year,
         status,
         descriptionEN,
-        descriptionNL
+        descriptionNL,
+        "series": series->{
+          _id,
+          title,
+          "slug": slug.current
+        }
       }[0...100]
     }`).then(result => {
       if (result && Array.isArray(result)) {
