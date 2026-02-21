@@ -7,7 +7,7 @@ export default {
       name: 'title',
       title: 'Title',
       type: 'string',
-      validation: Rule => Rule.required()
+      validation: (Rule: any) => Rule.required()
     },
     {
       name: 'slug',
@@ -17,7 +17,7 @@ export default {
         source: 'title',
         maxLength: 96,
       },
-      validation: Rule => Rule.required()
+      validation: (Rule: any) => Rule.required()
     },
     {
       name: 'image',
@@ -26,20 +26,20 @@ export default {
       options: {
         hotspot: true,
       },
-      validation: Rule => Rule.required()
+      validation: (Rule: any) => Rule.required()
     },
     {
       name: 'series',
       title: 'Series',
       type: 'reference',
       to: [{type: 'series'}],
-      validation: Rule => Rule.required()
+      validation: (Rule: any) => Rule.required()
     },
     {
       name: 'dimensions',
       title: 'Dimensions',
       type: 'string',
-      validation: Rule => Rule.required()
+      validation: (Rule: any) => Rule.required()
     },
     {
       name: 'medium',
@@ -52,13 +52,13 @@ export default {
           {title: 'Mixed Media', value: 'works.medium.mixedMedia'},
         ]
       },
-      validation: Rule => Rule.required()
+      validation: (Rule: any) => Rule.required()
     },
     {
       name: 'year',
       title: 'Year',
       type: 'string',
-      validation: Rule => Rule.required()
+      validation: (Rule: any) => Rule.required()
     },
     {
       name: 'status',
@@ -70,7 +70,7 @@ export default {
           {title: 'Sold', value: 'sold'},
         ]
       },
-      validation: Rule => Rule.required()
+      validation: (Rule: any) => Rule.required()
     },
     {
       name: 'descriptionEN',
@@ -89,7 +89,7 @@ export default {
       series: 'series.title',
       media: 'image',
     },
-    prepare(selection) {
+    prepare(selection: any) {
       const {title, series, media} = selection;
       return {
         title,
