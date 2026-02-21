@@ -39,7 +39,7 @@ export default function SeriesListClient({ seriesData }: { seriesData: Series[] 
           {series.map((series) => (
             <Link 
               key={series._id} 
-              href={`/works/${series.slug.current}`}
+              href={`/works/${series.slug}`}
               className="block w-full"
             >
               <div className="group relative w-full h-[220px] overflow-hidden bg-gray-300">

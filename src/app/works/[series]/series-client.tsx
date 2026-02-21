@@ -60,7 +60,7 @@ export default function SeriesClient({ series: initialSeries }: { series: Series
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {availableWorks.map((work) => (
-            <Link key={work._id} href={`/works/${series.slug.current}/${work.slug.current}`}>
+            <Link key={work._id} href={`/works/${series.slug}/${work.slug}`}>
               <div className="group">
                 <div className="bg-gray-100 aspect-square relative overflow-hidden mb-3">
                   {work.image ? (

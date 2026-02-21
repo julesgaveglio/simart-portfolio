@@ -1,20 +1,10 @@
 import { notFound } from 'next/navigation';
-import { getWorkBySlug, getAllWorks, getAllSeries } from '@/lib/sanityActions';
+import { getWorkBySlug } from '@/lib/sanityActions';
 import WorkClient from './work-client';
 
 type Props = {
   params: { series: string; id: string }
 };
-
-// Cette fonction est requise pour l'export statique avec Next.js
-export async function generateStaticParams() {
-  const allWorks = await getAllWorks();
-  
-  return allWorks.map((work) => ({
-    series: work.series.slug.current,
-    id: work.slug.current,
-  }));
-}
 
 export default async function WorkPage({ params }: Props) {
   const seriesSlug = params.series;

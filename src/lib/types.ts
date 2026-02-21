@@ -17,7 +17,7 @@ export interface SanityImage {
 export interface Series {
   _id: string;
   title: string;
-  slug: { current: string };
+  slug: string;
   coverImage?: SanityImage;
   descriptionEN?: string;
   descriptionNL?: string;
@@ -28,12 +28,12 @@ export interface Series {
 export interface Work {
   _id: string;
   title: string;
-  slug: { current: string };
+  slug: string;
   image: SanityImage;
   series: {
     _id: string;
     title: string;
-    slug: { current: string };
+    slug: string;
   };
   dimensions: string;
   medium: string;

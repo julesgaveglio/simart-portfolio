@@ -17,7 +17,7 @@ export async function sanityFetch<T>({
       tags,
       // En développement, revalider toutes les 3 secondes pour une expérience proche du temps réel
       // En production, utiliser un cache plus long (1 heure)
-      revalidate: isDevelopment ? 3 : 3600,
+      revalidate: isDevelopment ? 0 : 3600,
     },
   });
 }
