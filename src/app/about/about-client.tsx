@@ -8,7 +8,7 @@ import type { About as AboutType } from '@/lib/types';
 import { PortableText } from '@portabletext/react';
 
 export default function AboutClient({ aboutInfo }: { aboutInfo: AboutType }) {
-  const { t, language } = useLanguage();
+  const { language } = useLanguage();
   
   // Select biography based on language
   const biography = language === 'en' ? aboutInfo.biographyEN : aboutInfo.biographyNL;
@@ -86,7 +86,7 @@ export default function AboutClient({ aboutInfo }: { aboutInfo: AboutType }) {
             
             {/* Contact information */}
             <div className="mt-8">
-              <h2 className="text-xl font-light mb-4 tracking-wide">{t('about.contact')}</h2>
+              <h2 className="text-xl font-light mb-4 tracking-wide">Contact</h2>
               <div className="space-y-3">
                 <p className="text-lg">{aboutInfo.name} | SiemArt</p>
                 
