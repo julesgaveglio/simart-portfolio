@@ -5,8 +5,9 @@ import { useLanguage } from '@/lib/i18n/LanguageContext';
 import { Contact } from '@/lib/types';
 import emailjs from '@emailjs/browser';
 
+
 export default function ContactClient({ contactInfo }: { contactInfo: Contact }) {
-  const { t, language } = useLanguage();
+  const { language } = useLanguage();
   const formRef = useRef<HTMLFormElement>(null);
   const [formData, setFormData] = useState({
     name: '',
@@ -59,8 +60,8 @@ export default function ContactClient({ contactInfo }: { contactInfo: Contact })
     } catch (err) {
       console.error('Failed to send email:', err);
       const errorMsg = language === 'en'
-        ? contactInfo.errorMessageEN || t('contact.errorMessage') || 'Failed to send email. Please try again later.'
-        : contactInfo.errorMessageNL || t('contact.errorMessage') || 'Er is een fout opgetreden bij het verzenden van de e-mail. Probeer het later opnieuw.';
+        ? contactInfo.errorMessageEN || 'Failed to send email. Please try again later.'
+        : contactInfo.errorMessageNL || 'Er is een fout opgetreden bij het verzenden van de e-mail. Probeer het later opnieuw.';
       setError(errorMsg);
     } finally {
       setIsSubmitting(false);
@@ -69,17 +70,17 @@ export default function ContactClient({ contactInfo }: { contactInfo: Contact })
 
   // Message de remerciement en fonction de la langue
   const thankYouMessage = language === 'en' 
-    ? contactInfo.thankYouMessageEN || t('contact.thankYouMessage')
-    : contactInfo.thankYouMessageNL || t('contact.thankYouMessage');
+    ? contactInfo.thankYouMessageEN || 'Thank you for your message. I will get back to you soon.'
+    : contactInfo.thankYouMessageNL || 'Bedankt voor je bericht. Ik neem binnenkort contact met je op.';
     
   // Textes des boutons en fonction de la langue
   const submitButtonText = language === 'en'
-    ? contactInfo.submitButtonTextEN || t('contact.submitButton') || 'Send'
-    : contactInfo.submitButtonTextNL || t('contact.submitButton') || 'Verzenden';
+    ? contactInfo.submitButtonTextEN || 'Send'
+    : contactInfo.submitButtonTextNL || 'Verzenden';
     
   const submittingButtonText = language === 'en'
-    ? contactInfo.submittingButtonTextEN || t('contact.submittingButton') || 'Sending...'
-    : contactInfo.submittingButtonTextNL || t('contact.submittingButton') || 'Verzenden...';
+    ? contactInfo.submittingButtonTextEN || 'Sending...'
+    : contactInfo.submittingButtonTextNL || 'Verzenden...';
 
   // Texte de description de la page
   const pageDescription = language === 'en'
@@ -88,7 +89,7 @@ export default function ContactClient({ contactInfo }: { contactInfo: Contact })
 
   return (
     <div className="pt-24 px-8 pb-16 max-w-6xl mx-auto">
-      <h1 className="text-2xl mb-4">{contactInfo.title || t('contact.pageTitle')}</h1>
+      <h1 className="text-2xl mb-4">{contactInfo.title || 'Contact'}</h1>
       
       {pageDescription && (
         <p className="mb-8 text-lg">{pageDescription}</p>
@@ -97,26 +98,26 @@ export default function ContactClient({ contactInfo }: { contactInfo: Contact })
       <div className="flex flex-col md:flex-row gap-12">
         {/* Informations de contact (côté gauche) */}
         <div className="w-full md:w-1/2">
-          <h2 className="text-lg font-medium mb-6">{contactInfo.contactInfoTitle || t('contact.contactInfo')}</h2>
+          <h2 className="text-lg font-medium mb-6">{contactInfo.contactInfoTitle || 'Contact Information'}</h2>
           
           <div className="space-y-6 mb-8">
             {contactInfo.email && (
               <div>
-                <p className="font-medium mb-1">{t('contact.email')}</p>
+                <p className="font-medium mb-1">Email</p>
                 <p className="text-sm">{contactInfo.email}</p>
               </div>
             )}
             
             {contactInfo.phone && (
               <div>
-                <p className="font-medium mb-1">{t('contact.phone')}</p>
+                <p className="font-medium mb-1">Phone</p>
                 <p className="text-sm">{contactInfo.phone}</p>
               </div>
             )}
             
             {contactInfo.studioAddress && (
               <div>
-                <p className="font-medium mb-1">{t('contact.studio')}</p>
+                <p className="font-medium mb-1">Studio</p>
                 <p className="text-sm whitespace-pre-line">{contactInfo.studioAddress}</p>
                 {contactInfo.openingHours && (
                   <p className="text-sm italic mt-1">{contactInfo.openingHours}</p>
@@ -128,7 +129,7 @@ export default function ContactClient({ contactInfo }: { contactInfo: Contact })
           {/* Réseaux sociaux */}
           {contactInfo.instagram && (
             <div>
-              <h3 className="text-lg font-medium mb-3">{contactInfo.socialMediaTitle || t('contact.socialMedia')}</h3>
+              <h3 className="text-lg font-medium mb-3">{contactInfo.socialMediaTitle || 'Social Media'}</h3>
               <div className="flex space-x-4">
                 <a href={contactInfo.instagram} target="_blank" rel="noopener noreferrer" className="text-black hover:opacity-70 flex items-center gap-2">
                   <svg className="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -150,7 +151,7 @@ export default function ContactClient({ contactInfo }: { contactInfo: Contact })
 
         {/* Formulaire de contact (côté droit) */}
         <div className="w-full md:w-1/2 mt-8 md:mt-0">
-          <h2 className="text-lg font-medium mb-6">{contactInfo.formTitle || t('contact.formTitle')}</h2>
+          <h2 className="text-lg font-medium mb-6">{contactInfo.formTitle || 'Get in Touch'}</h2>
           
           {isSubmitted ? (
             <div className="bg-green-50 p-4 rounded">
@@ -160,7 +161,7 @@ export default function ContactClient({ contactInfo }: { contactInfo: Contact })
             <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <label htmlFor="name" className="block mb-1 text-sm">
-                  {contactInfo.nameFieldLabel || t('contact.nameLabel')}
+                  {contactInfo.nameFieldLabel || 'Name'}
                 </label>
                 <input
                   type="text"
@@ -175,7 +176,7 @@ export default function ContactClient({ contactInfo }: { contactInfo: Contact })
               
               <div>
                 <label htmlFor="email" className="block mb-1 text-sm">
-                  {contactInfo.emailFieldLabel || t('contact.emailLabel')}
+                  {contactInfo.emailFieldLabel || 'Email'}
                 </label>
                 <input
                   type="email"
@@ -190,7 +191,7 @@ export default function ContactClient({ contactInfo }: { contactInfo: Contact })
               
               <div>
                 <label htmlFor="message" className="block mb-1 text-sm">
-                  {contactInfo.messageFieldLabel || t('contact.messageLabel')}
+                  {contactInfo.messageFieldLabel || 'Message'}
                 </label>
                 <textarea
                   id="message"
