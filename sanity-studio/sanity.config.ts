@@ -6,7 +6,7 @@ import deskStructure from './deskStructure'
 
 export default defineConfig({
   name: 'default',
-  title: 'simart-portfolio',
+  title: 'SiemArt-portfolio',
 
   projectId: 'yjqruava',
   dataset: 'production',

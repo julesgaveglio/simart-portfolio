@@ -12,7 +12,7 @@ Ce guide explique comment configurer et utiliser Sanity CMS avec le portfolio Si
 
    Suivez les instructions pour:
    - Vous connecter à votre compte Sanity (ou en créer un)
-   - Nommer votre projet (ex: "simart-portfolio")
+   - Nommer votre projet (ex: "SiemArt-portfolio")
    - Utiliser le dataset "production" par défaut
    - Sélectionner le dossier "sanity" comme emplacement du projet
 

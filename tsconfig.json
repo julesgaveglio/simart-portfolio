@@ -41,7 +41,7 @@
     "node_modules",
     "schemas",
     "sanity-studio",
-    "simart-next",
+    "simart-next", "siemart-next",
     "scripts"
   ]
 }
