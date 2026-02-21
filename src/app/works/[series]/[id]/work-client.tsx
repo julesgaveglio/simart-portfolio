@@ -1,41 +1,13 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Work } from '@/lib/types';
 import { useLanguage } from '@/lib/i18n/LanguageContext';
 import { getSanityImageUrl } from '@/lib/sanityActions';
-import { useSanityLiveDocument } from '@/hooks/useSanityLiveQuery';
-import { useRouter } from 'next/navigation';
 
-export default function WorkClient({ work: initialWork, seriesSlug }: { work: Work; seriesSlug: string }) {
+export default function WorkClient({ work, seriesSlug }: { work: Work; seriesSlug: string }) {
   const { t } = useLanguage();
-  const router = useRouter();
-  const [work, setWork] = useState<Work>(initialWork);
-  
-  // Utiliser le hook de synchronisation en temps réel pour l'œuvre
-  const { data: liveWork, isDeleted, isLoading } = useSanityLiveDocument<Work>(initialWork._id, initialWork);
-  
-  // Mettre à jour les données lorsque des changements sont détectés
-  useEffect(() => {
-    if (liveWork) {
-      setWork(liveWork);
-    }
-    
-    // Rediriger vers la page de la série si l'œuvre est supprimée
-    if (isDeleted) {
-      router.push(`/works/${seriesSlug}`);
-    }
-  }, [liveWork, isDeleted, router, seriesSlug]);
-  
-  if (isLoading) {
-    return (
-      <div className="pt-24 px-8 pb-16 max-w-6xl mx-auto flex justify-center items-center">
-        <div className="animate-pulse text-gray-500">Chargement...</div>
-      </div>
-    );
-  }
 
   return (
     <div className="pt-24 px-8 pb-16 max-w-6xl mx-auto">

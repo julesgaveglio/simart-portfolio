@@ -1,42 +1,25 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useLanguage } from '@/lib/i18n/LanguageContext';
 import { getSanityImageUrl } from '@/lib/sanityActions';
 import { Series } from '@/lib/types';
-import { useSanityLiveQuery } from '@/hooks/useSanityLiveQuery';
 
 export default function SeriesListClient({ seriesData }: { seriesData: Series[] }) {
   const { t } = useLanguage();
-  const [series, setSeries] = useState<Series[]>(seriesData);
-  
-  // Utiliser le hook de synchronisation en temps réel pour les séries
-  const { data: liveSeries, isLoading } = useSanityLiveQuery<Series>('series', seriesData);
-  
-  // Mettre à jour les données lorsque des changements sont détectés
-  useEffect(() => {
-    if (liveSeries && liveSeries.length > 0) {
-      setSeries(liveSeries);
-    }
-  }, [liveSeries]);
 
   return (
     <div className="pt-24 px-8 pb-16 max-w-6xl mx-auto">
       <h1 className="text-2xl mb-12">WORKS</h1>
       
-      {isLoading ? (
-        <div className="flex justify-center items-center py-12">
-          <div className="animate-pulse text-gray-500">Chargement...</div>
-        </div>
-      ) : series.length === 0 ? (
+      {seriesData.length === 0 ? (
         <div className="text-center py-12">
           <p>Aucune série disponible</p>
         </div>
       ) : (
         <div className="flex flex-col gap-8">
-          {series.map((series) => (
+          {seriesData.map((series) => (
             <Link 
               key={series._id} 
               href={`/works/${series.slug}`}

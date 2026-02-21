@@ -1,45 +1,14 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Series, Work } from '@/lib/types';
+import { Series } from '@/lib/types';
 import { useLanguage } from '@/lib/i18n/LanguageContext';
 import { getSanityImageUrl } from '@/lib/sanityActions';
-import { useSanityLiveDocument } from '@/hooks/useSanityLiveQuery';
-import { useRouter } from 'next/navigation';
 
-export default function SeriesClient({ series: initialSeries }: { series: Series }) {
+export default function SeriesClient({ series }: { series: Series }) {
   const { t } = useLanguage();
-  const router = useRouter();
-  const [series, setSeries] = useState<Series>(initialSeries);
-  
-  // Utiliser le hook de synchronisation en temps réel pour la série
-  const { data: liveSeries, isDeleted, isLoading } = useSanityLiveDocument<Series>(initialSeries._id, initialSeries);
-  
-  // Mettre à jour les données lorsque des changements sont détectés
-  useEffect(() => {
-    if (liveSeries) {
-      setSeries(liveSeries);
-    }
-    
-    // Rediriger vers la page des works si la série est supprimée
-    if (isDeleted) {
-      router.push('/works');
-    }
-  }, [liveSeries, isDeleted, router]);
-  
-  // Filtrer les œuvres supprimées (celles qui n'ont pas d'ID)
-  const availableWorks = series.works?.filter(work => work._id) || [];
-  
-  if (isLoading) {
-    return (
-      <div className="pt-24 px-8 pb-16 max-w-6xl mx-auto flex justify-center items-center">
-        <div className="animate-pulse text-gray-500">Chargement...</div>
-      </div>
-    );
-  }
-  
+
   return (
     <div className="pt-24 px-8 pb-16 max-w-6xl mx-auto">
       {/* Fil d'Ariane */}
@@ -53,13 +22,13 @@ export default function SeriesClient({ series: initialSeries }: { series: Series
       <p className="mb-12 text-gray-600">{series.descriptionEN}</p>
 
       {/* Grille d'œuvres */}
-      {availableWorks.length === 0 ? (
+      {!series.works || series.works.length === 0 ? (
         <div className="text-center py-12">
           <p>Aucune œuvre disponible dans cette série</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {availableWorks.map((work) => (
+          {series.works.map((work) => (
             <Link key={work._id} href={`/works/${series.slug}/${work.slug}`}>
               <div className="group">
                 <div className="bg-gray-100 aspect-square relative overflow-hidden mb-3">
@@ -86,10 +55,10 @@ export default function SeriesClient({ series: initialSeries }: { series: Series
         </div>
       )}
       
-      {availableWorks.length > 0 && (
+      {series.works && series.works.length > 0 && (
         <div className="mt-8 text-sm">
           <p className="text-gray-500">
-            {`1 / ${Math.ceil(availableWorks.length / 4)}`}
+            {`1 / ${Math.ceil(series.works.length / 4)}`}
             <span className="ml-2">→</span>
           </p>
         </div>
